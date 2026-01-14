@@ -1,10 +1,9 @@
 Trello Board: https://trello.com/b/jIvRBkZf
 
 Team:
-1) Francesco Foresta
-2) Wadzanai Murombedzi
-3) Acheampong Kingsley
-4) Jerjes Junior Mariluz
-5) Kasagga Frank
-6) Pastor Zimondi
-7) Louis Chilumba
+1) Wadzanai Murombedzi
+2) Acheampong Kingsley
+3) Jerjes Junior Mariluz
+4) Kasagga Frank
+5) Pastor Zimondi
+6) Louis Chilumba
