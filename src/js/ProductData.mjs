@@ -21,3 +21,6 @@ export default class ProductData {
     return products.find((item) => item.Id === id);
   }
 }
+
+
+// tHIS WAS EXACTLY AS OUR TEACHERS AFTER WEEK TWO
