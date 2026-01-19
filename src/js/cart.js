@@ -26,3 +26,15 @@ function cartItemTemplate(item) {
 }
 
 renderCartContents();
+
+
+import { clearCart } from './utils.mjs';
+
+// Call this on a button click
+const clearButton = document.getElementById('clear-cart'); // create a "Clear Cart" button in HTML
+if (clearButton) {
+  clearButton.addEventListener('click', () => {
+    clearCart(); // will remove all items from localStorage and clear the DOM
+  });
+}
+

@@ -3,6 +3,7 @@ import { renderListWithTemplate } from "./utils.mjs";
 
 function productCardTemplate(product) {
     return `<li class="product-card">
+        <button class="remove-item" data-id="${product.Id}">✖</button>
     <a href="product_pages/?product=${product.Id}">
       <img src="${product.Image}" alt="Image of ${product.Name}">
       <h2 class="card__brand">${product.Brand.Name}</h2>
@@ -100,8 +101,22 @@ export default class ProductList {
     renderList(products) {
         renderListWithTemplate(productCardTemplate, this.listElement, products);
     }
-
-
    
 }
+attachRemoveButtons();
+
+import { removeCartItem } from './utils.mjs';
+
+function attachRemoveButtons() {
+    const buttons = document.querySelectorAll('.remove-item');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = parseInt(btn.dataset.id);
+            removeCartItem(id);
+        });
+    });
+}
+
+
+
 

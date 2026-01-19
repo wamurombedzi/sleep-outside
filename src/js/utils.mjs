@@ -43,3 +43,14 @@ export function renderListWithTemplate(
   parentElement.insertAdjacentHTML(position, html);
 }
 
+// utils.mjs
+export function removeCartItem(productId, cartSelector = '.product-list', storageKey = 'so-cart') {
+  let cart = JSON.parse(localStorage.getItem(storageKey)) || [];
+  cart = cart.filter(item => item.Id !== productId);
+  localStorage.setItem(storageKey, JSON.stringify(cart));
+
+  // Remove from DOM
+  const cartElement = document.querySelector(cartSelector);
+  const itemEl = cartElement.querySelector(`[data-id='${productId}']`);
+  if (itemEl) cartElement.remove();
+}
