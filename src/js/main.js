@@ -1,13 +1,21 @@
-import ProductData from "./ProductData.js";
+import ProductData from "./ProductData.mjs";
 //importing the productdata
 import ProductList from "./ProductList.mjs"; // importing product list
 
 
 const dataSource = new ProductData("tents");//creating an instance of it
-// this must match an element in your HTML
+
 const listElement = document.getElementById("product-list");
 
 const productList = new ProductList("tents", dataSource, listElement);
+
+
+async function showProducts() {
+    await productList.init();
+    productList.renderList(productList.products);
+}
+
+showProducts();
 
 await productList.init();
 console.log(productList.products);
