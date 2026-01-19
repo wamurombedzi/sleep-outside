@@ -241,6 +241,32 @@ button {
   grid-column: 3;
 }
 
+.discount-flag {
+  background-color: #0999b6;
+  color: white;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 0.9em;
+  border-radius: 4px;
+  display: inline-block;
+  margin: 5px 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;

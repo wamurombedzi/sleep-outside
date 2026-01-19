@@ -14,7 +14,6 @@
 
 // // testProduct();
 
-
 // function addProductToCart(product) {
 //   const cartItems = getLocalStorage('so-cart') || [];
 //   cartItems.push(product);
@@ -30,7 +29,6 @@
 // document
 //   .getElementById('addToCart')
 //   .addEventListener('click', addToCartHandler);
-
 
 import { getParam } from './utils.mjs';
 import ProductData from './ProductData.mjs';
