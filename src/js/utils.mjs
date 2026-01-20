@@ -43,7 +43,7 @@ export function renderListWithTemplate(
   parentElement.insertAdjacentHTML(position, html);
 }
 
-// utils.mjs
+// ADDED PART OF REMOVING CART FUNCTION
 export function removeCartItem(productId, cartSelector = '.product-list', storageKey = 'so-cart') {
   let cart = JSON.parse(localStorage.getItem(storageKey)) || [];
   cart = cart.filter(item => item.Id !== productId);
