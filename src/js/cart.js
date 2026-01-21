@@ -26,3 +26,30 @@ function cartItemTemplate(item) {
 }
 
 renderCartContents();
+
+//integration with cartvalidation.js
+import { validateQuantity, showFeedbackMessage } from './cartvalidation.js';
+
+function updateCartItemQuantity(itemId, newQuantity) {
+  const validation = validateQuantity(newQuantity);
+
+  if (!validation.isValid) {
+    showFeedbackMessage(validation.message);
+    // Restore original value
+    const input = document.querySelector(`[data-id="${itemId}"]`);
+    const item = cart.find(i => i.id === itemId);
+    if (input && item) {
+      input.value = item.quantity;
+    }
+    return;
+  }
+
+  // Proceed with valid update
+  const itemIndex = cart.findIndex(item => item.id === itemId);
+  if (itemIndex > -1) {
+    cart[itemIndex].quantity = parseInt(newQuantity);
+    saveCartToStorage(cart);
+    renderCartItems();
+    showFeedbackMessage("Quantity updated successfully", false);
+  }
+}
