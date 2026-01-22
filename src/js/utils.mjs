@@ -54,3 +54,40 @@ export function removeCartItem(productId, cartSelector = '.product-list', storag
   const itemEl = cartElement.querySelector(`[data-id='${productId}']`);
   if (itemEl) cartElement.remove();
 }
+
+export function renderWithTemplate(
+  templateFn,
+  parentElement,
+  data,
+  callback,
+  position = "afterbegin",
+  clear = false
+) {
+  if (clear) parentElement.innerHTML = "templateFn";
+  if (callback) {
+    callback(data)
+  };
+
+  const html = list.map(item => templateFn(item)).join("");
+  parentElement.insertAdjacentHTML(position, html);
+}
+
+
+export async function loadTemplate(path) {
+  const content = await fetch(path);
+  const responseToContent = await content.text();
+  return content;
+  
+}
+
+export async function loadHeaderFooter() {
+  // header
+  const headerTemplate = await loadTemplate("../partials/header.html");
+  const headerElement = document.querySelector("#main-header");
+  renderWithTemplate(headerTemplate, headerElement);
+
+  // footer
+  const footerTemplate = await loadTemplate("../partials/footer.html");
+  const footerElements = document.querySelector("#main-fotoer");
+  renderWithTemplate(footerTemplate, footerElements);
+}
