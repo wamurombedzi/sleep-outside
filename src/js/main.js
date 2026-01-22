@@ -1,13 +1,13 @@
-import ProductData from "./ProductData.mjs";
+import ProductData from './ProductData.mjs';
 //importing the productdata
-import ProductList from "./ProductList.mjs"; // importing product list
+import ProductList from './ProductList.mjs'; // importing product list
 
 
-const dataSource = new ProductData("tents");//creating an instance of it
+const dataSource = new ProductData('tents');//creating an instance of it
 
-const listElement = document.getElementById("product-list");
+const listElement = document.getElementById('product-list');
 
-const productList = new ProductList("tents", dataSource, listElement);
+const productList = new ProductList('tents', dataSource, listElement);
 
 
 async function showProducts() {
