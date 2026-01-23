@@ -69,14 +69,24 @@ export default class ProductDetails {
 
     // render the product details in HTML
     renderProductDetails() {
-        const nameEl = document.querySelector('.product-name');
-        const imageEl = document.querySelector('.product-image');
-        const priceEl = document.querySelector('.product-price');
+        const brandEl = document.querySelector('.product-detail h3');
+        const nameEl = document.querySelector('.product-detail h2');
+        const imageEl = document.querySelector('.product-detail img');
+        const priceEl = document.querySelector('.product-card__price');
+        const descEl = document.querySelector('.product__description');
 
         if (this.product && Object.keys(this.product).length > 0) {
-            if (nameEl) nameEl.textContent = this.product.Name;
-            if (imageEl) imageEl.src = this.product.Image;
+
+            if (brandEl) brandEl.textContent = this.product.Brand.Name;
+            if (nameEl) nameEl.textContent = this.product.NameWithoutBrand;
+
+            if (imageEl) {
+                imageEl.src = this.product.Image.replace('../', '/');
+                imageEl.alt = this.product.Name;
+            }
+
             if (priceEl) priceEl.textContent = `$${this.product.FinalPrice}`;
+            if (descEl) descEl.innerHTML = this.product.DescriptionHtmlSimple;
         }
     }
 }

@@ -4,39 +4,40 @@ export const validateQuantity = (quantity) => {
   if (isNaN(num)) {
     return {
       isValid: false,
-      message: "Please enter a valid number"
+      message: 'Please enter a valid number',
     };
   }
 
   if (!Number.isInteger(num)) {
     return {
       isValid: false,
-      message: "Quantity must be a whole number"
+      message: 'Quantity must be a whole number',
     };
   }
 
   if (num < 1) {
     return {
       isValid: false,
-      message: "Quantity must be at least 1"
+      message: 'Quantity must be at least 1',
     };
   }
 
   if (num > 99) {
     return {
       isValid: false,
-      message: "Maximum quantity is 99"
+      message: 'Maximum quantity is 99',
     };
   }
 
   return {
     isValid: true,
-    message: ""
+    message: '',
   };
 };
 
 export const showFeedbackMessage = (message, isError = true) => {
-  const feedbackDiv = document.getElementById('cart-feedback') || createFeedbackElement();
+  const feedbackDiv =
+    document.getElementById('cart-feedback') || createFeedbackElement();
   feedbackDiv.textContent = message;
   feedbackDiv.className = `cart-feedback ${isError ? 'error' : 'success'}`;
   feedbackDiv.style.display = 'block';
@@ -45,3 +46,10 @@ export const showFeedbackMessage = (message, isError = true) => {
     feedbackDiv.style.display = 'none';
   }, 3000);
 };
+
+function createFeedbackElement() {
+  const div = document.createElement('div');
+  div.id = 'cart-feedback';
+  document.body.prepend(div);
+  return div;
+}
