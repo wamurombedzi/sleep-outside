@@ -18,3 +18,8 @@ if (categoryElement && category) {
 
     categoryElement.textContent = formattedCategory;
 }
+
+const sortElement = document.querySelector('#sort-select');
+sortElement.addEventListener('change', () => {
+    myList.updateSort(sortElement.value);
+})

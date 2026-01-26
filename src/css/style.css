@@ -253,6 +253,28 @@ button {
   animation: pulse 2s infinite;
 }
 
+.sort-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 1rem 0;
+  padding-right: 1rem;
+  font-family: var(--font-body);
+}
+
+#sort-select {
+  margin-left: 0.5rem;
+  padding: 0.4rem;
+  border: 1px solid var(--tertiary-color);
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+}
+
+#sort-select:focus {
+  outline: 2px solid var(--primary-color);
+}
+
 @keyframes pulse {
   0% {
     transform: scale(1);
