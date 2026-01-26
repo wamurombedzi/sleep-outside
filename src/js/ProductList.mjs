@@ -5,17 +5,30 @@ export default class ProductList {
         this.category = category;
         this.dataSource = dataSource;
         this.listElement = listElement;
+        this.list = [];
     }
 
     async init() {
         const list = await this.dataSource.getData(this.category);
-        const filteredList = this.filterList(list);
-        this.renderList(filteredList);
+        this.list = this.filterList(list);
+        this.renderList(this.list);
+    }
+
+    updateSort(criteria) {
+        this.sortList(criteria);
+        this.renderList(this.list);
+    }
+
+    sortList(criteria) {
+        if (criteria === 'name') {
+            this.list.sort((a, b) => a.Name.localeCompare(b.Name));
+        } else if (criteria === 'price') {
+            this.list.sort((a, b) => a.FinalPrice - b.FinalPrice);
+        }
     }
 
     filterList(list) {
         if (!Array.isArray(list)) {
-            //eslint-disable-next-line no-console
             console.error('Data received is not an array:', list);
             return [];
         }
@@ -24,7 +37,6 @@ export default class ProductList {
             const requiredIds = ['880RR', '985RF', '985PR', '344YJ'];
             return list.filter((product) => requiredIds.includes(product.Id));
         }
-
         return list;
     }
 
@@ -35,7 +47,6 @@ export default class ProductList {
 
 function productCardTemplate(product) {
     const imagePath = product.Images.PrimaryMedium;
-
     const discountAmount = (product.SuggestedRetailPrice - product.FinalPrice).toFixed(2);
     const discountTag = product.FinalPrice < product.SuggestedRetailPrice
         ? `<p class="discount-flag">Save $${discountAmount}!</p>`
