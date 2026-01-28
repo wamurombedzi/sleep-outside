@@ -1,0 +1,48 @@
+footer {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  z-index: 1000;
+}
+ 
+footer a {
+  color: white;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+  color: yellow;
+} 
+  
+footer p {
+  font-size: smaller;
+}
+
+/***CONVERTING THE SAME CODE TO NESTED CSS**/
+footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+
+    & a {
+        color: white;
+        text-decoration: none;
+    }
+
+    &:hover{
+        text-decoration: underline;
+        color: yellow;
+    }
+
+   & p {
+        font-size: smaller;
+    }
+}
