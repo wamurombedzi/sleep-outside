@@ -8,3 +8,7 @@ const cart = new ShoppingCart(
   document.querySelector('.product-list'),
 );
 cart.init();
+
+document.getElementById('checkoutButton').addEventListener('click', () => {
+  window.location.href = 'checkout.html';
+});
