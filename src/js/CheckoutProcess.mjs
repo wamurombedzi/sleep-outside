@@ -1,17 +1,14 @@
-import { getLocalStorage } from './utils.mjs';
+import { getLocalStorage, alertMessage } from './utils.mjs';
 import ExternalServices from './ExternalServices.mjs';
 
 const services = new ExternalServices();
 
-// Helper function to convert form data to a clean JSON object
 function formDataToJSON(formElement) {
     const formData = new FormData(formElement);
     const convertedJSON = {};
-
-    formData.forEach(function (value, key) {
+    formData.forEach((value, key) => {
         convertedJSON[key] = value;
     });
-
     return convertedJSON;
 }
 
@@ -45,64 +42,75 @@ export default class CheckoutProcess {
         const summaryElement = document.querySelector(this.outputSelector + ' #subtotal');
         const amounts = this.list.map((item) => item.FinalPrice);
         this.itemTotal = amounts.reduce((sum, item) => sum + item, 0);
-
-        if (summaryElement) {
-            summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
-        }
+        if (summaryElement) summaryElement.innerText = `$${this.itemTotal.toFixed(2)}`;
     }
 
     calculateOrderTotal() {
         this.tax = (this.itemTotal * 0.06).toFixed(2);
-
-        if (this.list.length > 0) {
-            this.shipping = 10 + (this.list.length - 1) * 2;
-        } else {
-            this.shipping = 0;
-        }
-
-        this.orderTotal = (
-            parseFloat(this.itemTotal) +
-            parseFloat(this.tax) +
-            parseFloat(this.shipping)
-        ).toFixed(2);
-
+        this.shipping = this.list.length > 0 ? 10 + (this.list.length - 1) * 2 : 0;
+        this.orderTotal = (parseFloat(this.itemTotal) + parseFloat(this.tax) + parseFloat(this.shipping)).toFixed(2);
         this.displayOrderTotals();
     }
 
     displayOrderTotals() {
-        const shippingElement = document.querySelector(this.outputSelector + ' #shipping');
-        const taxElement = document.querySelector(this.outputSelector + ' #tax');
-        const orderTotalElement = document.querySelector(this.outputSelector + ' #orderTotal');
+        const s = document.querySelector('#shipping');
+        const t = document.querySelector('#tax');
+        const o = document.querySelector('#orderTotal');
 
-        if (shippingElement) shippingElement.innerText = `$${this.shipping.toFixed(2)}`;
-        if (taxElement) taxElement.innerText = `$${this.tax}`;
-        if (orderTotalElement) orderTotalElement.innerText = `$${this.orderTotal}`;
+        if (s) s.innerText = `$${this.shipping}`;
+        if (t) t.innerText = `$${this.tax}`;
+        if (o) o.innerText = `$${this.orderTotal}`;
     }
 
     async checkout() {
         const formElement = document.forms['checkout'];
-        const json = formDataToJSON(formElement);
 
+        const existing = document.querySelectorAll('.alert');
+        existing.forEach(a => a.remove());
+
+        if (!formElement.checkValidity()) {
+
+            if (!formElement.cardNumber.checkValidity()) {
+                alertMessage('Invalid Card Number: Must be 16 digits');
+            }
+
+            if (!formElement.expiration.checkValidity()) {
+                alertMessage('Invalid Expiration Date');
+            }
+
+            if (!formElement.fname.checkValidity() || !formElement.lname.checkValidity()) {
+                alertMessage('Please fill all required address fields');
+            }
+
+            return;
+        }
+
+        const json = formDataToJSON(formElement);
         json.orderDate = new Date().toISOString();
         json.items = packageItems(this.list);
         json.orderTotal = this.orderTotal;
         json.shipping = this.shipping;
         json.tax = this.tax;
-        // eslint-disable-next-line no-console
-        console.log('Sending order:', json);
 
         try {
-            const res = await services.checkout(json);
-            // eslint-disable-next-line no-console
-            console.log('Server response:', res);
+            await services.checkout(json);
 
             localStorage.removeItem(this.key);
-            alert('Order Placed Successfully!');
-            location.assign('/cart/checkedout.html');
+            location.assign('/cart/checkout/success.html');
 
         } catch (err) {
-            // eslint-disable-next-line no-console
-            console.error('Checkout error:', err);
+            const existingCatch = document.querySelectorAll('.alert');
+            existingCatch.forEach(a => a.remove());
+
+            const errorMessages = await err.message;
+
+            if (errorMessages && typeof errorMessages === 'object') {
+                Object.values(errorMessages).forEach(msg => {
+                    alertMessage(msg);
+                });
+            } else {
+                alertMessage(err.message || 'There was a problem with your order.');
+            }
         }
     }
 }

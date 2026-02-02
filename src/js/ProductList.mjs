@@ -29,6 +29,7 @@ export default class ProductList {
 
     filterList(list) {
         if (!Array.isArray(list)) {
+            // eslint-disable-next-line no-console
             console.error('Data received is not an array:', list);
             return [];
         }

@@ -1,11 +1,11 @@
 const baseURL = 'https://wdd330-backend.onrender.com/';
 
 async function convertToJson(res) {
-  const data = await res.json();
+  const jsonResponse = await res.json();
   if (res.ok) {
-    return data;
+    return jsonResponse;
   } else {
-    throw new Error(`Error: ${data.message || 'file not found'}`);
+    throw { name: 'servicesError', message: jsonResponse };
   }
 }
 
