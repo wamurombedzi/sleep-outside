@@ -68,20 +68,41 @@ export default class CheckoutProcess {
         const existing = document.querySelectorAll('.alert');
         existing.forEach(a => a.remove());
 
-        if (!formElement.checkValidity()) {
+        const expirationInput = formElement.expiration;
+        const expValue = expirationInput.value;
+        const expRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+        const match = expValue.match(expRegex);
 
-            if (!formElement.cardNumber.checkValidity()) {
-                alertMessage('Invalid Card Number: Must be 16 digits');
+        let hasErrors = false;
+
+        if (!match) {
+            alertMessage('Invalid Expiration Date: Use MM/YY format (e.g., 12/26)');
+            hasErrors = true;
+        } else {
+            const expMonth = parseInt(match[1]);
+            const expYear = parseInt(match[2]) + 2000;
+            const now = new Date();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
+
+            if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+                alertMessage('This card has expired. Please use a valid card.');
+                hasErrors = true;
             }
+        }
 
-            if (!formElement.expiration.checkValidity()) {
-                alertMessage('Invalid Expiration Date');
-            }
+        const cardRegex = /^[0-9]{16}$/;
+        if (!cardRegex.test(formElement.cardNumber.value)) {
+            alertMessage('Invalid Card Number: Must be exactly 16 digits');
+            hasErrors = true;
+        }
 
-            if (!formElement.fname.checkValidity() || !formElement.lname.checkValidity()) {
-                alertMessage('Please fill all required address fields');
-            }
+        if (!formElement.fname.checkValidity() || !formElement.lname.checkValidity() || !formElement.city.checkValidity()) {
+            alertMessage('Please fill all required address fields');
+            hasErrors = true;
+        }
 
+        if (hasErrors) {
             return;
         }
 

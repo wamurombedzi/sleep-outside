@@ -23,6 +23,15 @@ export default class ProductDetails {
         cartItems.push(this.product);
         setLocalStorage('so-cart', cartItems);
         alertMessage(`${this.product.NameWithoutBrand} Successfully added to cart!`)
+
+        const cartIcon = document.querySelector('.cart svg');
+        cartIcon.classList.add('animate-cart');
+
+        setTimeout(() => {
+            cartIcon.classList.remove('animate-cart');
+        }, 500);
+
+
     }
 
     renderProductDetails() {
@@ -47,3 +56,4 @@ export default class ProductDetails {
         }
     }
 }
+
