@@ -6,6 +6,7 @@
     <title>Sleep Outside | Home</title>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="css/seach-feature.css">
+    <link rel="stylesheet" href="css/subscribe-button.css">
   </head>
 
   <body>
@@ -117,11 +118,29 @@
           </li>
         </ul>
       </section> -->
+
+      
       <section>
         
         <ul id="product-list"></ul>
 
       </section>
+
+      <!-- Newsletter Signup Section -->
+      <section class="newsletter">
+        <div class="newsletter-box">
+          <h2>Stay Updated</h2>
+          <p>Subscribe to our newsletter and get the latest updates straight to your inbox.</p>
+      
+          <form id="newsletterForm">
+            <input type="email" id="email" placeholder="Enter your email address" required />
+            <button class="Subscribe-button" type="submit">Subscribe</button>
+          </form>
+      
+          <small id="message"></small>
+        </div>
+      </section>
+
     </main>
     <footer id="main-footer">
       &copy;2025 ⛺ SleepOutside ⛺ WDD 330 ⛺ BYU-Idaho for BYU-Pathway
@@ -129,5 +148,6 @@
     </footer>
     
     <script type="module" src="./js/main.js"></script>
+    <script src="js/subscribeButton.js"></script>
   </body>
 </html>
